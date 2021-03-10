@@ -1,0 +1,24 @@
+take start date, end date as input
+extract year, month, day
+
+current_date = input
+
+while current_date < end_date
+    select year in datepicker
+    while current_date.year == datepicker.year
+        select month
+        while current_date.month == datepicker.month
+            select day
+
+            <-------fetch stats-------->
+            show all rows
+            init sheet[][]
+            for i in column:
+                for j in rows:
+                    sheet[i][j] = value in table
+            
+            call google funcs
+            dump data on google sheet
+
+            current_date = current_date + 7 days
+        click next month arrow
