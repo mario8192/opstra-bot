@@ -1,0 +1,17 @@
+start_date = "2019-01-31"
+current_date = datetime.date.fromisoformat(start_date)
+select_stock("BANKNIFTY")
+
+-------loop1------
+
+select_date_in_datepicker(current_date)
+select_expiry_date(current_date)
+
+------loop2-----
+get_option_chain()
+save_to_csv(fetch_table())
+click_5_min()
+------loop2-----  #after end of day
+
+current_date = next_week(current_date)
+--------loop1--------- 

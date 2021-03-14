@@ -1,0 +1,4 @@
+driver = webdriver.Chrome()
+setup_login()
+#select dates
+csv_loop()

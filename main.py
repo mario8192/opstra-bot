@@ -11,33 +11,30 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
-from sheet import work
+# from sheet import work
+# driver = webdriver.Chrome()
 
-driver = webdriver.Chrome()
-driver.wait = WebDriverWait(driver, 10)
 
-driver.get("https://opstra.definedge.com")
-
-# # get cookie
-#
-# with open('cookie.txt', 'wb') as fp:
-#     pickle.dump(driver.get_cookies(), fp)
-
-with open('cookie.txt', 'rb') as fp:
-    loadedCookie = pickle.load(fp)
-
-for cookie in loadedCookie:
-    # print(cookie)
-    try:
-        cookie['expiry'] = round(cookie['expiry'])
-    except:
-        pass
-    driver.add_cookie(cookie)
-
-driver.get("https://opstra.definedge.com/options-simulator")
-driver.wait.until(EC.title_contains("Options Simulator"))
-# driver.wait.until(EC.presence_of_element_located(
-#     (By.CSS_SELECTOR, "span.chip__content > a.black--text")))
+def setup_login():
+    driver.wait = WebDriverWait(driver, 10)
+    driver.get("https://opstra.definedge.com")
+    # # get cookie
+    #
+    # with open('cookie.txt', 'wb') as fp:
+    #     pickle.dump(driver.get_cookies(), fp)
+    with open('cookie.txt', 'rb') as fp:
+        loadedCookie = pickle.load(fp)
+    for cookie in loadedCookie:
+        # print(cookie)
+        try:
+            cookie['expiry'] = round(cookie['expiry'])
+        except:
+            pass
+        driver.add_cookie(cookie)
+    driver.get("https://opstra.definedge.com/options-simulator")
+    driver.wait.until(EC.title_contains("Options Simulator"))
+    # driver.wait.until(EC.presence_of_element_located(
+    #     (By.CSS_SELECTOR, "span.chip__content > a.black--text")))
 
 
 def next_week(old_date):
@@ -214,7 +211,7 @@ def wait_for_load():
     while driver.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.vld-overlay"))).get_attribute("style") != "display: none;":
         # while driver.wait.until(EC.presence_of_element_located(
         #         (By.XPATH, "/html/body/div/div[21]/main/div/div/div/div/div[2]/div[1]"))).get_attribute("style") == "display: none;":
-        print(".")
+        # print(".")
         continue
     time.sleep(0.5)
     print("continue")
@@ -251,8 +248,16 @@ def loop(start_date, end_date):
         pass
 
 
-if __name__ == "__main__":
-    start_date = "2020-03-12"
-    end_date = "2020-03-26"
-    wait_for_load()
-    loop(start_date, end_date)
+def csv_loop():
+    for i in range(0, 74):
+        get_option_chain()
+        wait_for_load()
+        save_to_csv(fetch_table())
+        click_5_min()
+
+
+# if __name__ == "__main__":
+#     start_date = "2020-03-12"
+#     end_date = "2020-03-26"
+#     wait_for_load()
+#     loop(start_date, end_date)
